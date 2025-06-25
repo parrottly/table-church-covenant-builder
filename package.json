@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "node server/server.js",
-    "build": "echo 'No build process needed for vanilla JS'"
+    "build": "npm install",
+    "netlify-postbuild": "npm install"
   },
   "dependencies": {
     "cors": "^2.8.5",
