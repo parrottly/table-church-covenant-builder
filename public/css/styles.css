@@ -1,12 +1,70 @@
 :root {
     /* The Table Church Brand Colors */
-    --table-white: #ffffff;
-    --table-light-gray: #c5c8d1;
     --table-mint: #7cc5a8;
     --table-purple: #6969b8;
     --table-dark-gray: #4d4d4d;
-    --table-text: #333333;
-    --table-light-bg: #f9fafa;
+    
+    /* Light theme colors */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9fafa;
+    --color-bg-tertiary: #f1f3f4;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #4d4d4d;
+    --color-text-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+    --color-accent: var(--table-purple);
+    --color-accent-secondary: var(--table-mint);
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow-light: rgba(0, 0, 0, 0.05);
+    
+    /* Typography */
+    --font-display: 'Crimson Text', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-primary: #111827;
+        --color-bg-secondary: #1f2937;
+        --color-bg-tertiary: #374151;
+        --color-text-primary: #f9fafb;
+        --color-text-secondary: #e5e7eb;
+        --color-text-muted: #9ca3af;
+        --color-border: #374151;
+        --color-border-light: #4b5563;
+        --color-shadow: rgba(0, 0, 0, 0.3);
+        --color-shadow-light: rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Manual dark theme override */
+[data-theme="dark"] {
+    --color-bg-primary: #111827;
+    --color-bg-secondary: #1f2937;
+    --color-bg-tertiary: #374151;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #e5e7eb;
+    --color-text-muted: #9ca3af;
+    --color-border: #374151;
+    --color-border-light: #4b5563;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-shadow-light: rgba(0, 0, 0, 0.2);
+}
+
+/* Manual light theme override */
+[data-theme="light"] {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9fafa;
+    --color-bg-tertiary: #f1f3f4;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #4d4d4d;
+    --color-text-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow-light: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -16,10 +74,11 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.6;
-    color: var(--table-text);
-    background-color: var(--table-light-bg);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -32,10 +91,40 @@ header {
     text-align: center;
     margin-bottom: 40px;
     padding: 30px 20px;
-    background: var(--table-white);
+    background: var(--color-bg-primary);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-top: 4px solid var(--table-purple);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border-top: 4px solid var(--color-accent);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.theme-toggle {
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    color: var(--color-text-secondary);
+}
+
+.theme-toggle:hover {
+    background: var(--color-accent-secondary);
+    color: var(--color-bg-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
 }
 
 .logo {
@@ -45,21 +134,22 @@ header {
 }
 
 header h1 {
-    color: var(--table-purple);
+    color: var(--color-accent);
+    font-family: var(--font-display);
     font-size: 2.2rem;
-    margin-bottom: 10px;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 
 header p {
-    color: var(--table-dark-gray);
+    color: var(--color-text-secondary);
     font-size: 1.1rem;
     max-width: 600px;
     margin: 0 auto;
 }
 
 .mission-statement {
-    background: linear-gradient(135deg, var(--table-mint), var(--table-purple));
+    background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent));
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -67,6 +157,7 @@ header p {
     max-width: 500px;
     font-style: italic;
     text-align: center;
+    font-family: var(--font-display);
 }
 
 .main-content {
@@ -77,17 +168,18 @@ header p {
 }
 
 .form-section, .preview-section {
-    background: var(--table-white);
+    background: var(--color-bg-primary);
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-left: 4px solid var(--table-mint);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border-left: 4px solid var(--color-accent-secondary);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .section {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .section:last-child {
@@ -96,10 +188,11 @@ header p {
 }
 
 .section h3 {
-    color: var(--table-purple);
+    color: var(--color-accent);
     margin-bottom: 15px;
     font-size: 1.3rem;
     font-weight: 600;
+    font-family: var(--font-display);
 }
 
 .field-group {
@@ -110,21 +203,24 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
-    color: var(--table-dark-gray);
+    color: var(--color-text-secondary);
 }
 
 input[type="text"], select, textarea {
     width: 100%;
     padding: 12px;
-    border: 2px solid var(--table-light-gray);
+    border: 2px solid var(--color-border);
     border-radius: 8px;
     font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: var(--font-body);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 input[type="text"]:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: var(--table-purple);
+    border-color: var(--color-accent);
     box-shadow: 0 0 0 3px rgba(105, 105, 184, 0.1);
 }
 
@@ -159,7 +255,7 @@ select {
 }
 
 .checkbox-label:hover {
-    color: var(--table-purple);
+    color: var(--color-accent);
 }
 
 .form-actions {
@@ -168,13 +264,14 @@ select {
 }
 
 button {
-    background: linear-gradient(135deg, var(--table-mint), var(--table-purple));
+    background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent));
     color: white;
     border: none;
     padding: 12px 24px;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
+    font-family: var(--font-body);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
@@ -189,39 +286,43 @@ button:active {
 }
 
 .preview-section h3 {
-    color: var(--table-purple);
+    color: var(--color-accent);
     margin-bottom: 20px;
     font-size: 1.3rem;
-    border-bottom: 2px solid var(--table-mint);
+    border-bottom: 2px solid var(--color-accent-secondary);
     padding-bottom: 10px;
     font-weight: 600;
+    font-family: var(--font-display);
 }
 
 .preview-content {
-    border: 2px solid var(--table-light-gray);
+    border: 2px solid var(--color-border);
     border-radius: 8px;
     padding: 20px;
-    background: var(--table-light-bg);
+    background: var(--color-bg-secondary);
     min-height: 400px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #preview-title {
-    color: var(--table-purple);
+    color: var(--color-accent);
     font-size: 1.8rem;
     margin-bottom: 20px;
     text-align: center;
-    border-bottom: 2px solid var(--table-mint);
+    border-bottom: 2px solid var(--color-accent-secondary);
     padding-bottom: 15px;
     font-weight: 600;
+    font-family: var(--font-display);
 }
 
 .preview-section-title {
-    color: var(--table-purple);
+    color: var(--color-accent);
     font-size: 1.2rem;
     font-weight: 600;
     margin: 20px 0 10px 0;
     padding-top: 15px;
-    border-top: 1px solid var(--table-light-gray);
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-display);
 }
 
 .preview-section-title:first-of-type {
@@ -267,6 +368,23 @@ button:active {
     }
 }
 
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .logo {
+        max-width: 150px;
+    }
+    
+    .theme-toggle {
+        align-self: flex-end;
+        margin-top: -10px;
+    }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 5px;
@@ -287,5 +405,14 @@ button:active {
     button {
         width: 100%;
         padding: 15px;
+    }
+    
+    .header-top {
+        gap: 10px;
+    }
+    
+    .theme-toggle {
+        padding: 6px 10px;
+        font-size: 1rem;
     }
 }

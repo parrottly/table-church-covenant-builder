@@ -4,4 +4,4 @@ server.log
 .vercel
 .netlify
 *.log
-.DS_Store
+.DS_Store.git-credentials

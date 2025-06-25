@@ -3,6 +3,56 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewContent = document.getElementById('preview-content');
     const previewTitle = document.getElementById('preview-title');
     const exportButton = document.getElementById('export-pdf');
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Theme Management
+    function initializeTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (systemPrefersDark) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+    
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const themeIcon = document.querySelector('.theme-icon');
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        // Update aria-label
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+    
+    // Initialize theme on page load
+    initializeTheme();
+    
+    // Theme toggle event listener
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 
     function handleCustomFields() {
         // Handle traditional select dropdowns (only the ones still using dropdowns)
@@ -240,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function exportToPDF() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const covenantData = {
             groupName: getTextValue('group-name'),
             season: getFieldValue('season', 'season-custom'),
@@ -258,7 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
             leaderExpectations: getCheckboxValues('leaderExpectations', 'leader-expectations-custom'),
             conflict: getCheckboxValues('conflict', 'conflict-custom'),
             dietary: getTextValue('dietary'),
-            additional: getTextValue('additional')
+            additional: getTextValue('additional'),
+            theme: currentTheme
         };
 
         // Check if any field has content (handle both strings and arrays)
@@ -291,32 +343,48 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fallback: Generate PDF using print dialog
         const printWindow = window.open('', '_blank');
         const title = covenantData.groupName ? `${covenantData.groupName} Community Covenant` : 'The Table Church Community Group Covenant';
+        const isDark = covenantData.theme === 'dark';
+        
+        // Theme-aware colors
+        const colors = {
+            bg: isDark ? '#1f2937' : '#ffffff',
+            text: isDark ? '#f9fafb' : '#333333',
+            textSecondary: isDark ? '#e5e7eb' : '#4d4d4d',
+            accent: '#6969b8',
+            accentSecondary: '#7cc5a8',
+            sectionBg: isDark ? '#374151' : '#f8f9fa',
+            border: isDark ? '#4b5563' : '#cccccc'
+        };
         
         let content = `
             <!DOCTYPE html>
             <html>
             <head>
                 <title>${title}</title>
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
                 <style>
-                    :root {
-                        --table-purple: #6969b8;
-                        --table-mint: #7cc5a8;
-                        --table-dark-gray: #4d4d4d;
+                    body { 
+                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
+                        margin: 40px; 
+                        line-height: 1.6; 
+                        color: ${colors.text}; 
+                        background-color: ${colors.bg};
                     }
-                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
                     .header { text-align: center; margin-bottom: 40px; }
-                    .logo-text { color: var(--table-purple); font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
-                    h1 { color: var(--table-purple); text-align: center; border-bottom: 3px solid var(--table-mint); padding-bottom: 20px; font-size: 1.8rem; }
-                    .mission { background: linear-gradient(135deg, var(--table-mint), var(--table-purple)); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; font-style: italic; }
+                    .logo-text { color: ${colors.accent}; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; font-family: 'Crimson Text', serif; }
+                    h1 { color: ${colors.accent}; text-align: center; border-bottom: 3px solid ${colors.accentSecondary}; padding-bottom: 20px; font-size: 1.8rem; font-family: 'Crimson Text', serif; font-weight: 600; }
+                    .mission { background: linear-gradient(135deg, ${colors.accentSecondary}, ${colors.accent}); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; font-style: italic; font-family: 'Crimson Text', serif; }
                     .section { margin: 25px 0; page-break-inside: avoid; }
-                    .section h3 { color: var(--table-purple); border-bottom: 1px solid var(--table-mint); padding-bottom: 8px; font-size: 1.2rem; }
+                    .section h3 { color: ${colors.accent}; border-bottom: 1px solid ${colors.accentSecondary}; padding-bottom: 8px; font-size: 1.2rem; font-family: 'Crimson Text', serif; font-weight: 600; }
                     .values { display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0; font-size: 0.9rem; }
-                    .values div { color: var(--table-dark-gray); }
-                    .values strong { color: var(--table-purple); }
-                    .signature-section { margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; }
-                    .signature-lines p { margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-                    .non-discrimination { background: #f9fafa; padding: 15px; border-left: 4px solid var(--table-mint); margin: 30px 0; font-size: 0.9rem; color: var(--table-dark-gray); }
-                    @media print { body { margin: 20px; } .values { flex-direction: column; } }
+                    .values div { color: ${colors.textSecondary}; }
+                    .values strong { color: ${colors.accent}; }
+                    .signature-section { margin-top: 40px; padding: 20px; background: ${colors.sectionBg}; border-radius: 8px; }
+                    .signature-lines p { margin: 15px 0; border-bottom: 1px solid ${colors.border}; padding-bottom: 10px; }
+                    .non-discrimination { background: ${colors.sectionBg}; padding: 15px; border-left: 4px solid ${colors.accentSecondary}; margin: 30px 0; font-size: 0.9rem; color: ${colors.textSecondary}; }
+                    @media print { body { margin: 20px; background-color: white !important; color: black !important; } .values { flex-direction: column; } }
                 </style>
             </head>
             <body>
