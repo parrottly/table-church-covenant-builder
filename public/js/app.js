@@ -363,21 +363,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 <title>${title}</title>
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
                 <style>
                     body { 
-                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
+                        font-family: 'Raleway', 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
                         margin: 40px; 
                         line-height: 1.6; 
                         color: ${colors.text}; 
                         background-color: ${colors.bg};
                     }
                     .header { text-align: center; margin-bottom: 40px; }
-                    .logo-text { color: ${colors.accent}; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; font-family: 'Crimson Text', serif; }
-                    h1 { color: ${colors.accent}; text-align: center; border-bottom: 3px solid ${colors.accentSecondary}; padding-bottom: 20px; font-size: 1.8rem; font-family: 'Crimson Text', serif; font-weight: 600; }
-                    .mission { background: linear-gradient(135deg, ${colors.accentSecondary}, ${colors.accent}); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; font-style: italic; font-family: 'Crimson Text', serif; }
+                    .logo-text { color: ${colors.accent}; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; font-family: 'Barlow', sans-serif; }
+                    h1 { color: ${colors.accent}; text-align: center; border-bottom: 3px solid ${colors.accentSecondary}; padding-bottom: 20px; font-size: 1.8rem; font-family: 'Rubik Mono One', monospace; font-weight: 400; letter-spacing: -0.02em; }
+                    .mission { background: linear-gradient(135deg, ${colors.accentSecondary}, ${colors.accent}); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; font-family: 'Barlow', sans-serif; font-weight: 500; }
                     .section { margin: 25px 0; page-break-inside: avoid; }
-                    .section h3 { color: ${colors.accent}; border-bottom: 1px solid ${colors.accentSecondary}; padding-bottom: 8px; font-size: 1.2rem; font-family: 'Crimson Text', serif; font-weight: 600; }
+                    .section h3 { color: ${colors.accent}; border-bottom: 1px solid ${colors.accentSecondary}; padding-bottom: 8px; font-size: 1.2rem; font-family: 'Barlow', sans-serif; font-weight: 600; }
                     .values { display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0; font-size: 0.9rem; }
                     .values div { color: ${colors.textSecondary}; }
                     .values strong { color: ${colors.accent}; }

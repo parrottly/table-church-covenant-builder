@@ -18,9 +18,10 @@
     --color-shadow: rgba(0, 0, 0, 0.1);
     --color-shadow-light: rgba(0, 0, 0, 0.05);
     
-    /* Typography */
-    --font-display: 'Crimson Text', serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    /* Typography - The Table Church Style Guide */
+    --font-brand: 'Rubik Mono One', monospace; /* Primary headlines & branding - modern, distinctive, tech-forward */
+    --font-display: 'Barlow', sans-serif; /* Secondary headlines - consistency across design */
+    --font-body: 'Raleway', 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; /* Body & Interface - clean, friendly, versatile */
 }
 
 /* Dark theme */
@@ -131,14 +132,28 @@ header {
     max-width: 200px;
     height: auto;
     margin-bottom: 20px;
+    content: url('table-text-black-transparent.png');
+    transition: opacity 0.3s ease;
+}
+
+/* Dark mode logo */
+[data-theme="dark"] .logo {
+    content: url('table-text-white-transparent.png');
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .logo {
+        content: url('table-text-white-transparent.png');
+    }
 }
 
 header h1 {
     color: var(--color-accent);
-    font-family: var(--font-display);
+    font-family: var(--font-brand);
     font-size: 2.2rem;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
+    letter-spacing: -0.02em;
 }
 
 header p {
@@ -155,9 +170,10 @@ header p {
     border-radius: 8px;
     margin: 20px auto;
     max-width: 500px;
-    font-style: italic;
     text-align: center;
     font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.4;
 }
 
 .main-content {
@@ -395,7 +411,8 @@ button:active {
     }
     
     header h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        letter-spacing: -0.01em;
     }
     
     .form-section, .preview-section {
