@@ -396,9 +396,13 @@ document.addEventListener('DOMContentLoaded', function() {
         exportButton.disabled = true;
         exportButton.textContent = 'Generating PDF...';
 
+        console.log('Starting PDF export...');
+        console.log('Covenant data:', covenantData);
+
         // Try advanced PDF generation first, fallback to print dialog
         try {
-            generateAdvancedPDF(covenantData);
+            await generateAdvancedPDF(covenantData);
+            console.log('Advanced PDF generation completed');
         } catch (error) {
             console.log('Advanced PDF generation failed, using print dialog:', error);
             generateClientPDF(covenantData);
@@ -413,8 +417,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function generateAdvancedPDF(covenantData) {
         // Check if html2canvas and jsPDF are available
-        if (typeof html2canvas === 'undefined' || typeof window.jsPDF === 'undefined') {
-            throw new Error('PDF libraries not available');
+        console.log('html2canvas available:', typeof html2canvas !== 'undefined');
+        console.log('jsPDF available:', typeof window.jsPDF !== 'undefined');
+        console.log('window.jsPDF:', window.jsPDF);
+        
+        if (typeof html2canvas === 'undefined') {
+            throw new Error('html2canvas not available');
+        }
+        
+        if (typeof window.jsPDF === 'undefined') {
+            throw new Error('jsPDF not available');
         }
 
         const { jsPDF } = window.jsPDF;
