@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
+    
     const form = document.getElementById('covenant-form');
     const previewContent = document.getElementById('preview-content');
     const previewTitle = document.getElementById('preview-title');
@@ -7,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobilePreviewToggle = document.getElementById('mobile-preview-toggle');
     const mobileIndicator = document.getElementById('mobile-indicator');
     const previewSection = document.querySelector('.preview-section');
+    
+    console.log('Elements found:', {
+        form: !!form,
+        previewContent: !!previewContent,
+        previewTitle: !!previewTitle,
+        exportButton: !!exportButton,
+        themeToggle: !!themeToggle
+    });
     
     // Theme Management
     function initializeTheme() {
@@ -356,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         previewContent.innerHTML = html;
     }
 
-    function exportToPDF() {
+    async function exportToPDF() {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const covenantData = {
             groupName: getTextValue('group-name'),
@@ -399,13 +409,13 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Starting PDF export...');
         console.log('Covenant data:', covenantData);
 
-        // Try advanced PDF generation first, fallback to print dialog
+        // Simplified: just use print dialog for now until we debug the advanced version
         try {
-            await generateAdvancedPDF(covenantData);
-            console.log('Advanced PDF generation completed');
-        } catch (error) {
-            console.log('Advanced PDF generation failed, using print dialog:', error);
             generateClientPDF(covenantData);
+            console.log('PDF generation completed');
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            alert('PDF generation failed. Please try again.');
         }
         
         // Reset button state after a short delay
@@ -768,10 +778,22 @@ document.addEventListener('DOMContentLoaded', function() {
         printWindow.document.close();
     }
 
-    form.addEventListener('input', updatePreview);
-    form.addEventListener('change', updatePreview);
-    exportButton.addEventListener('click', exportToPDF);
+    // Set up event listeners
+    console.log('Setting up event listeners...');
+    
+    if (form) {
+        form.addEventListener('input', updatePreview);
+        form.addEventListener('change', updatePreview);
+        console.log('Form event listeners added');
+    }
+    
+    if (exportButton) {
+        exportButton.addEventListener('click', exportToPDF);
+        console.log('Export button event listener added');
+    }
 
     handleCustomFields();
     updatePreview();
+    
+    console.log('App initialization complete');
 });
