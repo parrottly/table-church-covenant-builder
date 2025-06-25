@@ -788,12 +788,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (exportButton) {
-        exportButton.addEventListener('click', exportToPDF);
+        exportButton.addEventListener('click', function(e) {
+            console.log('PDF button clicked!', e);
+            exportToPDF();
+        });
         console.log('Export button event listener added');
+        
+        // Test if button is clickable
+        console.log('Export button details:', {
+            id: exportButton.id,
+            disabled: exportButton.disabled,
+            style: exportButton.style.display,
+            visible: exportButton.offsetParent !== null
+        });
+    } else {
+        console.error('Export button not found!');
     }
 
     handleCustomFields();
     updatePreview();
+    
+    // Debug: Try to find all buttons
+    const allButtons = document.querySelectorAll('button');
+    console.log('All buttons found:', allButtons.length);
+    allButtons.forEach((btn, index) => {
+        console.log(`Button ${index}:`, {
+            id: btn.id,
+            text: btn.textContent.trim(),
+            type: btn.type
+        });
+    });
     
     console.log('App initialization complete');
 });
