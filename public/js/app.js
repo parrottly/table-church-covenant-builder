@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
             themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
         }
         
+        // Update logo for theme
+        const logo = document.querySelector('.logo');
+        if (logo) {
+            logo.src = theme === 'dark' ? 'table-text-white-transparent.png' : 'table-text-black-transparent.png';
+        }
+        
         // Update aria-label
         if (themeToggle) {
             themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');

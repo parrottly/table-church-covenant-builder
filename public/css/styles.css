@@ -132,19 +132,7 @@ header {
     max-width: 200px;
     height: auto;
     margin-bottom: 20px;
-    content: url('table-text-black-transparent.png');
     transition: opacity 0.3s ease;
-}
-
-/* Dark mode logo */
-[data-theme="dark"] .logo {
-    content: url('table-text-white-transparent.png');
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .logo {
-        content: url('table-text-white-transparent.png');
-    }
 }
 
 header h1 {
