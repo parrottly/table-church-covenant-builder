@@ -1,0 +1,26 @@
+{
+  "name": "community-covenant-builder",
+  "version": "1.0.0",
+  "description": "A web application to help create customized community covenants",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "build": "echo 'No build process needed for vanilla JS'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "puppeteer": "^21.0.0"
+  },
+  "keywords": [
+    "community",
+    "covenant",
+    "small-group",
+    "pdf-generator"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Covenant Builder</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="table-text-black-transparent.png" alt="The Table Church" class="logo">
+            <h1>Community Group Covenant Builder</h1>
+            <p>Create a customized covenant for your Table Church community group</p>
+            <div class="mission-statement">
+                <strong>Our Mission:</strong> Cultivating communities of authentic belonging following in the prophetic, thoughtful, and radical way of Jesus.
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="form-section">
+                <form id="covenant-form">
+                    <div class="section">
+                        <h3>Group Information</h3>
+                        <div class="field-group">
+                            <label for="group-name">Group Name:</label>
+                            <input type="text" id="group-name" name="groupName" placeholder="e.g., NOVA-Alexandria Community Group">
+                        </div>
+                        <div class="field-group">
+                            <label for="season">Season/Timeline:</label>
+                            <select id="season" name="season">
+                                <option value="">Select season...</option>
+                                <option value="Fall (September - November)">Fall (September - November)</option>
+                                <option value="Spring (February - April)">Spring (February - April)</option>
+                                <option value="Year-round with seasonal breaks">Year-round with seasonal breaks</option>
+                                <option value="custom">Custom timeline...</option>
+                            </select>
+                            <input type="text" id="season-custom" name="seasonCustom" placeholder="Enter your custom timeline..." style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Our Shared Mission</h3>
+                        <div class="field-group">
+                            <label>Group Mission (aligned with The Table's mission) - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="mission" value="To cultivate authentic belonging through spiritual formation and community building, following the radical way of Jesus">
+                                    To cultivate authentic belonging through spiritual formation and community building, following the radical way of Jesus
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="mission" value="To embody The Table's values of radical friendship, relentless curiosity, and revolutionary justice in our daily lives">
+                                    To embody The Table's values of radical friendship, relentless curiosity, and revolutionary justice in our daily lives
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="mission" value="To create a Christ-centered group focused on building our spiritual relationships with God and each other">
+                                    To create a Christ-centered group focused on building our spiritual relationships with God and each other
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="mission" value="To practice rooted improvisation and restorative play while growing in faith together">
+                                    To practice rooted improvisation and restorative play while growing in faith together
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="mission-custom-check" name="mission" value="custom">
+                                    Other (specify below)
+                                </label>
+                            </div>
+                            <textarea id="mission-custom" name="missionCustom" placeholder="Write your custom group mission..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Meeting Logistics</h3>
+                        <div class="field-group">
+                            <label for="frequency">Meeting Frequency:</label>
+                            <select id="frequency" name="frequency">
+                                <option value="">Select frequency...</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-weekly">Bi-weekly</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="custom">Custom frequency...</option>
+                            </select>
+                            <input type="text" id="frequency-custom" name="frequencyCustom" placeholder="Enter custom frequency..." style="display: none;">
+                        </div>
+                        
+                        <div class="field-group">
+                            <label for="duration">Meeting Duration:</label>
+                            <select id="duration" name="duration">
+                                <option value="">Select duration...</option>
+                                <option value="1.5-2 hours (including meal)">1.5-2 hours (including meal)</option>
+                                <option value="1 hour">1 hour</option>
+                                <option value="2 hours">2 hours</option>
+                                <option value="custom">Custom duration...</option>
+                            </select>
+                            <input type="text" id="duration-custom" name="durationCustom" placeholder="Enter custom duration..." style="display: none;">
+                        </div>
+
+                        <div class="field-group">
+                            <label>Meeting Format - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="format" value="In-person meetings">
+                                    In-person meetings
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="format" value="Virtual meetings via video call">
+                                    Virtual meetings via video call
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="format" value="Hybrid meetings (some in-person, some virtual)">
+                                    Hybrid meetings (some in-person, some virtual)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="format" value="Alternating between in-person and virtual">
+                                    Alternating between in-person and virtual
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="format-custom-check" name="format" value="custom">
+                                    Other format (specify below)
+                                </label>
+                            </div>
+                            <input type="text" id="format-custom" name="formatCustom" placeholder="Describe your meeting format..." style="display: none;">
+                        </div>
+
+                        <div class="field-group">
+                            <label>Meal & Hospitality - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="meals" value="Shared meals with rotating hosting responsibilities among group members">
+                                    Shared meals with rotating hosting responsibilities among group members
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="meals" value="Potluck style meals with everyone contributing">
+                                    Potluck style meals with everyone contributing
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="meals" value="Simple snacks and beverages only">
+                                    Simple snacks and beverages only
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="meals" value="No food, meeting only">
+                                    No food, meeting only
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="meals" value="Virtual coffee/tea time for online meetings">
+                                    Virtual coffee/tea time for online meetings
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="meals-custom-check" name="meals" value="custom">
+                                    Other arrangement (specify below)
+                                </label>
+                            </div>
+                            <input type="text" id="meals-custom" name="mealsCustom" placeholder="Describe your meal arrangement..." style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Meeting Norms & Guidelines</h3>
+                        <div class="field-group">
+                            <label>Process Norms - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="processNorms" value="We will respect everyone's time by starting and ending on time">
+                                    We will respect everyone's time by starting and ending on time
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="processNorms" value="Only one conversation at one time. Refrain from side-talk">
+                                    Only one conversation at one time. Refrain from side-talk
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="processNorms" value="Be present with the people you are meeting with. Put away phones and other devices during the meeting">
+                                    Be present with the people you are meeting with. Put away phones and other devices during the meeting
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="processNorms" value="Everyone is responsible for helping to stay on topic and upholding the norms">
+                                    Everyone is responsible for helping to stay on topic and upholding the norms
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="processNorms" value="Address conflict head on with grace and curiosity">
+                                    Address conflict head on with grace and curiosity
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="process-norms-custom-check" name="processNorms" value="custom">
+                                    Other process norms (specify below)
+                                </label>
+                            </div>
+                            <textarea id="process-norms-custom" name="processNormsCustom" placeholder="Write additional process norms..." style="display: none;"></textarea>
+                        </div>
+
+                        <div class="field-group">
+                            <label>Communication Norms - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="communicationNorms" value="Ask questions for clarification to help avoid making assumptions">
+                                    Ask questions for clarification to help avoid making assumptions
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="communicationNorms" value="Make sure everyone's voice is heard - balance your participation, speak and listen">
+                                    Make sure everyone's voice is heard - balance your participation, speak and listen
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="communicationNorms" value="Say it now, in the room. Avoid waiting till later to raise an issue">
+                                    Say it now, in the room. Avoid waiting till later to raise an issue
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="communicationNorms" value="Be honest - speak your truth as you see it. Use 'I' phrases, and avoid assuming to speak on behalf of others">
+                                    Be honest - speak your truth as you see it. Use 'I' phrases, and avoid assuming to speak on behalf of others
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="communicationNorms" value="It's OK to reflect and change your mind">
+                                    It's OK to reflect and change your mind
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="communication-norms-custom-check" name="communicationNorms" value="custom">
+                                    Other communication norms (specify below)
+                                </label>
+                            </div>
+                            <textarea id="communication-norms-custom" name="communicationNormsCustom" placeholder="Write additional communication norms..." style="display: none;"></textarea>
+                        </div>
+
+                        <div class="field-group">
+                            <label>Virtual Meeting Norms (if applicable) - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="virtualNorms" value="Turn on your video unless impossible. Body language is important for effective communication">
+                                    Turn on your video unless impossible. Body language is important for effective communication
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="virtualNorms" value="Use the mute button to prevent transmission of background noise">
+                                    Use the mute button to prevent transmission of background noise
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="virtualNorms" value="Do not multi-task (do other work) during the meeting">
+                                    Do not multi-task (do other work) during the meeting
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="virtualNorms" value="Test technology beforehand and have backup communication methods">
+                                    Test technology beforehand and have backup communication methods
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="virtual-norms-custom-check" name="virtualNorms" value="custom">
+                                    Other virtual norms (specify below)
+                                </label>
+                            </div>
+                            <textarea id="virtual-norms-custom" name="virtualNormsCustom" placeholder="Write additional virtual meeting norms..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Safe & Inclusive Space Guidelines</h3>
+                        <div class="field-group">
+                            <label>Creating Authentic Belonging - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="inclusiveSpace" value="We commit to respecting one another's opinions, experiences, and differences, creating space where all identities are welcomed and affirmed">
+                                    We commit to respecting one another's opinions, experiences, and differences, creating space where all identities are welcomed and affirmed
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="inclusiveSpace" value="We embrace The Table's non-discrimination values: no aspect of someone's identity limits their ability to fully participate in our group">
+                                    We embrace The Table's non-discrimination values: no aspect of someone's identity limits their ability to fully participate in our group
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="inclusiveSpace" value="We practice trauma-informed awareness, understanding that members may have religious trauma or difficult experiences with faith communities">
+                                    We practice trauma-informed awareness, understanding that members may have religious trauma or difficult experiences with faith communities
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="inclusiveSpace" value="We create a brave space for honest conversation while maintaining respect and care for all participants">
+                                    We create a brave space for honest conversation while maintaining respect and care for all participants
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="inclusive-space-custom-check" name="inclusiveSpace" value="custom">
+                                    Other commitment (specify below)
+                                </label>
+                            </div>
+                            <textarea id="inclusive-space-custom" name="inclusiveSpaceCustom" placeholder="Write your custom inclusive space commitment..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Confidentiality & Trust</h3>
+                        <div class="field-group">
+                            <label>Confidentiality Agreement - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="confidentiality" value="What is said in group, stays in group. We respect each other's privacy and personal sharing">
+                                    What is said in group, stays in group. We respect each other's privacy and personal sharing
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="confidentiality" value="We maintain confidentiality while knowing that leaders may connect members with pastoral care resources when needed">
+                                    We maintain confidentiality while knowing that leaders may connect members with pastoral care resources when needed
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="confidentiality" value="We commit to assuming good intentions from everyone and approaching concerns with grace">
+                                    We commit to assuming good intentions from everyone and approaching concerns with grace
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="confidentiality-custom-check" name="confidentiality" value="custom">
+                                    Other agreement (specify below)
+                                </label>
+                            </div>
+                            <textarea id="confidentiality-custom" name="confidentialityCustom" placeholder="Write your custom confidentiality agreement..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Participation & Shared Responsibility</h3>
+                        <div class="field-group">
+                            <label>Participation Expectations - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="participation" value="We commit to vulnerability as we feel comfortable building trust and relationships with one another">
+                                    We commit to vulnerability as we feel comfortable building trust and relationships with one another
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="participation" value="Equal participation: facilitating topics and coordinating meals is a shared responsibility balanced between group members">
+                                    Equal participation: facilitating topics and coordinating meals is a shared responsibility balanced between group members
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="participation" value="We practice presence - being engaged and attentive during our time together while respecting different comfort levels with sharing">
+                                    We practice presence - being engaged and attentive during our time together while respecting different comfort levels with sharing
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="participation" value="We balance spiritual formation and friendship, avoiding making meetings into group therapy while supporting each other">
+                                    We balance spiritual formation and friendship, avoiding making meetings into group therapy while supporting each other
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="participation-custom-check" name="participation" value="custom">
+                                    Other expectations (specify below)
+                                </label>
+                            </div>
+                            <textarea id="participation-custom" name="participationCustom" placeholder="Write your custom participation guidelines..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>What We Expect from Each Other</h3>
+                        <div class="field-group">
+                            <label>Member Commitments - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="memberExpectations" value="Practice radical friendship - showing up authentically and caring for one another's wellbeing">
+                                    Practice radical friendship - showing up authentically and caring for one another's wellbeing
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="memberExpectations" value="Embrace relentless curiosity - staying open to learning and growing together, asking questions with humility">
+                                    Embrace relentless curiosity - staying open to learning and growing together, asking questions with humility
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="memberExpectations" value="Demonstrate revolutionary justice - actively working against oppression and creating space for all to flourish">
+                                    Demonstrate revolutionary justice - actively working against oppression and creating space for all to flourish
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="memberExpectations" value="Engage in restorative play - bringing joy, creativity, and lightness to our community building">
+                                    Engage in restorative play - bringing joy, creativity, and lightness to our community building
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="memberExpectations" value="Practice rooted improvisation - being flexible and adaptive while staying grounded in our values">
+                                    Practice rooted improvisation - being flexible and adaptive while staying grounded in our values
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="member-expectations-custom-check" name="memberExpectations" value="custom">
+                                    Other expectations (specify below)
+                                </label>
+                            </div>
+                            <textarea id="member-expectations-custom" name="memberExpectationsCustom" placeholder="Write what you expect from each other..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>What We Expect from Our Leaders</h3>
+                        <div class="field-group">
+                            <label>Leadership Commitments - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="leaderExpectations" value="Create a safe haven through hospitality, reading group dynamics, and maintaining emotional regulation during difficult moments">
+                                    Create a safe haven through hospitality, reading group dynamics, and maintaining emotional regulation during difficult moments
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="leaderExpectations" value="Navigate differences in race, sexuality, class, ability, and other identities with empathy and grace">
+                                    Navigate differences in race, sexuality, class, ability, and other identities with empathy and grace
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="leaderExpectations" value="Demonstrate trauma-informed awareness and commitment to ongoing formation in inclusive leadership">
+                                    Demonstrate trauma-informed awareness and commitment to ongoing formation in inclusive leadership
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="leaderExpectations" value="Model spiritual disciplines while maintaining healthy boundaries between personal relationships and leadership responsibilities">
+                                    Model spiritual disciplines while maintaining healthy boundaries between personal relationships and leadership responsibilities
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="leaderExpectations" value="Foster equal participation and shared leadership, empowering group members to take on facilitation roles">
+                                    Foster equal participation and shared leadership, empowering group members to take on facilitation roles
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="leader-expectations-custom-check" name="leaderExpectations" value="custom">
+                                    Other expectations (specify below)
+                                </label>
+                            </div>
+                            <textarea id="leader-expectations-custom" name="leaderExpectationsCustom" placeholder="Write what you expect from your leaders..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Navigating Conflict & Disagreement</h3>
+                        <div class="field-group">
+                            <label>Conflict Resolution Approach - Select all that apply:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="conflict" value="If something doesn't sit right, first approach the person directly to clarify, then reach out to group leaders if needed">
+                                    If something doesn't sit right, first approach the person directly to clarify, then reach out to group leaders if needed
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="conflict" value="We commit to 'good faith' - believing the best intentions about group members and seeking the group's best interests">
+                                    We commit to 'good faith' - believing the best intentions about group members and seeking the group's best interests
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="conflict" value="We approach disagreements with humility, curiosity, and a desire for mutual understanding rather than being 'right'">
+                                    We approach disagreements with humility, curiosity, and a desire for mutual understanding rather than being 'right'
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="conflict" value="We acknowledge that conflict can be healthy and use it as an opportunity to deepen relationships and practice grace">
+                                    We acknowledge that conflict can be healthy and use it as an opportunity to deepen relationships and practice grace
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="conflict-custom-check" name="conflict" value="custom">
+                                    Other approach (specify below)
+                                </label>
+                            </div>
+                            <textarea id="conflict-custom" name="conflictCustom" placeholder="Write your custom conflict resolution approach..." style="display: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Dietary Needs & Accessibility</h3>
+                        <div class="field-group">
+                            <label for="dietary">Dietary Restrictions & Accessibility Needs:</label>
+                            <textarea id="dietary" name="dietary" placeholder="List any dietary restrictions, allergies, or accessibility needs for the group (e.g., no gluten, wheelchair accessibility, etc.)..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Additional Commitments</h3>
+                        <div class="field-group">
+                            <label for="additional">Additional Agreements:</label>
+                            <textarea id="additional" name="additional" placeholder="Add any additional commitments, seasonal topics, study resources, or agreements specific to your group..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section" style="border-top: 2px solid var(--table-mint); padding-top: 20px; background: var(--table-light-bg); border-radius: 8px; padding: 20px;">
+                        <h3>The Table Church Non-Discrimination Statement</h3>
+                        <p style="font-style: italic; color: var(--table-dark-gray);">
+                            The Table Church believes that no aspect of someone's identity should limit their ability to fully participate in the life of the Church. Therefore: Membership, Employment, Eligibility for Eldership and Officership, other Church Leadership Roles, and Religious Rites (such as marriage, baptism, communion, and funerals) must not be denied on the basis of one's identity, including race, color, sex, sexual orientation, gender identity or expression, age, disability, marital status, citizenship, national origin, veteran status, or genetic information.
+                        </p>
+                        <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem;">
+                            <div><strong style="color: var(--table-purple);">Radical</strong> Friendship</div>
+                            <div><strong style="color: var(--table-purple);">Relentless</strong> Curiosity</div>
+                            <div><strong style="color: var(--table-purple);">Rooted</strong> Improvisation</div>
+                            <div><strong style="color: var(--table-purple);">Restorative</strong> Play</div>
+                            <div><strong style="color: var(--table-purple);">Revolutionary</strong> Justice</div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="export-pdf">Export Community Covenant as PDF</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="preview-section">
+                <h3>Covenant Preview</h3>
+                <div id="covenant-preview" class="preview-content">
+                    <h2 id="preview-title">Community Covenant</h2>
+                    <div id="preview-content">
+                        <p><em>Complete the form to see your covenant preview here...</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
