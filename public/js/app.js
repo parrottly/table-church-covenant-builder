@@ -277,39 +277,14 @@ document.addEventListener('DOMContentLoaded', function() {
         exportButton.disabled = true;
         exportButton.textContent = 'Generating PDF...';
 
-        // Try server-side PDF first, fallback to client-side
-        fetch('/api/generate-pdf', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(covenantData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Server PDF generation failed');
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = `${covenantData.groupName || 'Community'}_Covenant.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        })
-        .catch(error => {
-            console.error('Server PDF failed, trying client-side:', error);
-            generateClientPDF(covenantData);
-        })
-        .finally(() => {
+        // Use client-side PDF generation (works better in deployed environment)
+        generateClientPDF(covenantData);
+        
+        // Reset button state after a short delay
+        setTimeout(() => {
             exportButton.disabled = false;
             exportButton.textContent = 'Export as PDF';
-        });
+        }, 1000);
     }
 
     function generateClientPDF(covenantData) {
