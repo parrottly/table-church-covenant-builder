@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewTitle = document.getElementById('preview-title');
     const exportButton = document.getElementById('export-pdf');
     const themeToggle = document.getElementById('theme-toggle');
+    const mobilePreviewToggle = document.getElementById('mobile-preview-toggle');
+    const mobileIndicator = document.getElementById('mobile-indicator');
+    const previewSection = document.querySelector('.preview-section');
     
     // Theme Management
     function initializeTheme() {
@@ -59,6 +62,64 @@ document.addEventListener('DOMContentLoaded', function() {
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
+    
+    // Mobile Preview Management
+    let previewOpen = false;
+    
+    function toggleMobilePreview() {
+        previewOpen = !previewOpen;
+        if (previewSection) {
+            previewSection.classList.toggle('open', previewOpen);
+        }
+        if (mobileIndicator) {
+            mobileIndicator.classList.toggle('hidden', previewOpen);
+        }
+    }
+    
+    function closeMobilePreview() {
+        previewOpen = false;
+        if (previewSection) {
+            previewSection.classList.remove('open');
+        }
+        if (mobileIndicator) {
+            mobileIndicator.classList.remove('hidden');
+        }
+    }
+    
+    // Mobile preview event listeners
+    if (mobilePreviewToggle) {
+        mobilePreviewToggle.addEventListener('click', toggleMobilePreview);
+    }
+    
+    if (mobileIndicator) {
+        mobileIndicator.addEventListener('click', toggleMobilePreview);
+    }
+    
+    // Close preview when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && previewOpen && 
+            !previewSection.contains(e.target) && 
+            !mobileIndicator.contains(e.target)) {
+            closeMobilePreview();
+        }
+    });
+    
+    // Auto-hide mobile indicator when scrolling on mobile
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (window.innerWidth <= 768 && !previewOpen) {
+            if (mobileIndicator) {
+                mobileIndicator.style.opacity = '0.5';
+            }
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (mobileIndicator) {
+                    mobileIndicator.style.opacity = '1';
+                }
+            }, 1000);
+        }
+    });
 
     function handleCustomFields() {
         // Handle traditional select dropdowns (only the ones still using dropdowns)
@@ -335,14 +396,196 @@ document.addEventListener('DOMContentLoaded', function() {
         exportButton.disabled = true;
         exportButton.textContent = 'Generating PDF...';
 
-        // Use client-side PDF generation (works better in deployed environment)
-        generateClientPDF(covenantData);
+        // Try advanced PDF generation first, fallback to print dialog
+        try {
+            generateAdvancedPDF(covenantData);
+        } catch (error) {
+            console.log('Advanced PDF generation failed, using print dialog:', error);
+            generateClientPDF(covenantData);
+        }
         
         // Reset button state after a short delay
         setTimeout(() => {
             exportButton.disabled = false;
             exportButton.textContent = 'Export as PDF';
-        }, 1000);
+        }, 2000);
+    }
+
+    async function generateAdvancedPDF(covenantData) {
+        // Check if html2canvas and jsPDF are available
+        if (typeof html2canvas === 'undefined' || typeof window.jsPDF === 'undefined') {
+            throw new Error('PDF libraries not available');
+        }
+
+        const { jsPDF } = window.jsPDF;
+        
+        // Create a temporary element with the covenant content
+        const tempElement = document.createElement('div');
+        tempElement.style.cssText = `
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 800px;
+            background: white;
+            padding: 40px;
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        `;
+        
+        const title = covenantData.groupName ? `${covenantData.groupName} Community Covenant` : 'The Table Church Community Group Covenant';
+        
+        // Generate the same content as the print version but optimized for PDF
+        let content = `
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="color: #6969b8; font-size: 1.4rem; font-weight: bold; font-family: 'Barlow', sans-serif; margin-bottom: 10px;">THE TABLE CHURCH</div>
+                <h1 style="color: #6969b8; font-size: 1.8rem; font-family: 'Rubik Mono One', monospace; font-weight: 400; letter-spacing: -0.02em; border-bottom: 3px solid #7cc5a8; padding-bottom: 20px; margin: 20px 0;">${title}</h1>
+                <div style="background: linear-gradient(135deg, #7cc5a8, #6969b8); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: 'Barlow', sans-serif; font-weight: 500;">
+                    <strong>Our Mission:</strong> Cultivating communities of authentic belonging following in the prophetic, thoughtful, and radical way of Jesus.
+                </div>
+            </div>
+        `;
+        
+        // Add all the sections (reusing the same logic from generateClientPDF)
+        function formatArrayForPDF(arr) {
+            if (!arr || arr.length === 0) return '';
+            if (arr.length === 1) return `<p>${arr[0]}</p>`;
+            return '<ul style="margin: 10px 0; padding-left: 20px;">' + arr.map(item => `<li style="margin: 5px 0;">${item}</li>`).join('') + '</ul>';
+        }
+
+        if (covenantData.season) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Season & Timeline</h3><p>${covenantData.season}</p></div>`;
+        }
+
+        if (covenantData.mission && covenantData.mission.length > 0) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Our Shared Mission</h3>${formatArrayForPDF(covenantData.mission)}</div>`;
+        }
+        
+        if (covenantData.frequency || covenantData.duration || (covenantData.format && covenantData.format.length > 0) || (covenantData.meals && covenantData.meals.length > 0)) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Meeting Logistics</h3>`;
+            if (covenantData.frequency) content += `<p><strong>Frequency:</strong> ${covenantData.frequency}</p>`;
+            if (covenantData.duration) content += `<p><strong>Duration:</strong> ${covenantData.duration}</p>`;
+            if (covenantData.format && covenantData.format.length > 0) {
+                content += `<p><strong>Meeting Format:</strong></p>${formatArrayForPDF(covenantData.format)}`;
+            }
+            if (covenantData.meals && covenantData.meals.length > 0) {
+                content += `<p><strong>Meals & Hospitality:</strong></p>${formatArrayForPDF(covenantData.meals)}`;
+            }
+            content += `</div>`;
+        }
+
+        // Add other sections...
+        if ((covenantData.processNorms && covenantData.processNorms.length > 0) || 
+            (covenantData.communicationNorms && covenantData.communicationNorms.length > 0) || 
+            (covenantData.virtualNorms && covenantData.virtualNorms.length > 0)) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Meeting Norms & Guidelines</h3>`;
+            if (covenantData.processNorms && covenantData.processNorms.length > 0) {
+                content += `<p><strong>Process Norms:</strong></p>${formatArrayForPDF(covenantData.processNorms)}`;
+            }
+            if (covenantData.communicationNorms && covenantData.communicationNorms.length > 0) {
+                content += `<p><strong>Communication Norms:</strong></p>${formatArrayForPDF(covenantData.communicationNorms)}`;
+            }
+            if (covenantData.virtualNorms && covenantData.virtualNorms.length > 0) {
+                content += `<p><strong>Virtual Meeting Norms:</strong></p>${formatArrayForPDF(covenantData.virtualNorms)}`;
+            }
+            content += `</div>`;
+        }
+        
+        // Continue with remaining sections...
+        const sections = [
+            {key: 'inclusiveSpace', title: 'Safe & Inclusive Space Guidelines'},
+            {key: 'confidentiality', title: 'Confidentiality & Trust'},
+            {key: 'participation', title: 'Participation & Shared Responsibility'},
+            {key: 'memberExpectations', title: 'What We Expect from Each Other'},
+            {key: 'leaderExpectations', title: 'What We Expect from Our Leaders'},
+            {key: 'conflict', title: 'Navigating Conflict & Disagreement'}
+        ];
+        
+        sections.forEach(section => {
+            if (covenantData[section.key] && covenantData[section.key].length > 0) {
+                content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">${section.title}</h3>${formatArrayForPDF(covenantData[section.key])}</div>`;
+            }
+        });
+
+        if (covenantData.dietary) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Dietary Needs & Accessibility</h3><p>${covenantData.dietary}</p></div>`;
+        }
+        
+        if (covenantData.additional) {
+            content += `<div style="margin: 25px 0;"><h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; border-bottom: 1px solid #7cc5a8; padding-bottom: 8px; font-size: 1.2rem;">Additional Commitments</h3><p>${covenantData.additional}</p></div>`;
+        }
+        
+        // Add commitment section
+        content += `
+            <div style="margin: 50px 0 30px 0; padding-top: 30px; border-top: 2px solid #7cc5a8;">
+                <h3 style="color: #6969b8; font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 1.2rem; margin-bottom: 15px;">Our Commitment</h3>
+                <p style="margin-bottom: 20px;"><em>By participating in this group, we agree to uphold these commitments and embody The Table Church's values as we create authentic belonging together.</em></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0; font-size: 0.9rem;">
+                    <div><strong style="color: #6969b8;">Radical</strong> Friendship</div>
+                    <div><strong style="color: #6969b8;">Relentless</strong> Curiosity</div>
+                    <div><strong style="color: #6969b8;">Rooted</strong> Improvisation</div>
+                    <div><strong style="color: #6969b8;">Restorative</strong> Play</div>
+                    <div><strong style="color: #6969b8;">Revolutionary</strong> Justice</div>
+                </div>
+                <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <p><strong>Date:</strong> _________________</p><br>
+                    <p><strong>Group Members:</strong></p>
+                    <div style="margin-top: 15px;">
+                        <p style="margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;">Name: _________________________ Signature: _________________________</p>
+                        <p style="margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;">Name: _________________________ Signature: _________________________</p>
+                        <p style="margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;">Name: _________________________ Signature: _________________________</p>
+                        <p style="margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;">Name: _________________________ Signature: _________________________</p>
+                        <p style="margin: 15px 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;">Name: _________________________ Signature: _________________________</p>
+                    </div>
+                </div>
+            </div>
+            <div style="background: #f9fafa; padding: 15px; border-left: 4px solid #7cc5a8; margin: 30px 0; font-size: 0.9rem; color: #4d4d4d;">
+                <strong>The Table Church Non-Discrimination Statement:</strong> The Table Church believes that no aspect of someone's identity should limit their ability to fully participate in the life of the Church. Membership, Employment, Eligibility for Eldership and Officership, other Church Leadership Roles, and Religious Rites must not be denied on the basis of one's identity, including race, color, sex, sexual orientation, gender identity or expression, age, disability, marital status, citizenship, national origin, veteran status, or genetic information.
+            </div>
+        `;
+        
+        tempElement.innerHTML = content;
+        document.body.appendChild(tempElement);
+        
+        try {
+            // Use html2canvas to convert to image
+            const canvas = await html2canvas(tempElement, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            });
+            
+            // Create PDF
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgData = canvas.toDataURL('image/png');
+            
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            
+            const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+            const imgWidth = canvasWidth * ratio;
+            const imgHeight = canvasHeight * ratio;
+            
+            const marginX = (pdfWidth - imgWidth) / 2;
+            const marginY = (pdfHeight - imgHeight) / 2;
+            
+            pdf.addImage(imgData, 'PNG', marginX, marginY, imgWidth, imgHeight);
+            
+            // Download the PDF
+            const filename = covenantData.groupName ? 
+                `${covenantData.groupName.replace(/[^a-z0-9]/gi, '_')}_Community_Covenant.pdf` : 
+                'Community_Covenant.pdf';
+            
+            pdf.save(filename);
+            
+        } finally {
+            // Clean up
+            document.body.removeChild(tempElement);
+        }
     }
 
     function generateClientPDF(covenantData) {
