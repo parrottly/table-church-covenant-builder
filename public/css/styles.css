@@ -165,6 +165,32 @@ header p {
     margin: 0 auto;
 }
 
+.instructions {
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-accent-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instructions h4 {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.instructions p {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
 .mission-statement {
     background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent));
     color: white;
